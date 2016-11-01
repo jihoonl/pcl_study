@@ -5,22 +5,16 @@ find_package(PCL 1.8 REQUIRED)
 
 add_definitions(${PCL_DEFINITIONS})
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+
 include_directories(
   include
   ${PCL_INCLUDE_DIRS}
 )
 
-add_executable(viewer
-  src/viewer.cpp
-)
-
 add_executable(openni2
-  src/openni2_viewer.cpp
+  src/main.cpp
 )
 target_link_libraries(openni2
-  ${PCL_LIBRARIES}
-)
-
-target_link_libraries(viewer
   ${PCL_LIBRARIES}
 )
