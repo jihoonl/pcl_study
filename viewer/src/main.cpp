@@ -3,6 +3,9 @@
 #include "viewer/typedef.hpp"
 #include "viewer/grabber.hpp"
 #include "viewer/viewer.hpp"
+#include "viewer/compute.hpp"
+
+namespace mylib {
 
 class Runner : public Viewer {
 
@@ -10,16 +13,18 @@ public:
   Runner() : Viewer()
   {
     grabber_.reset(new MyGrabber());
+  //  compute_.reset(new Compute());
   }
 
   ~Runner() {
     grabber_.reset();
+//    compute_.reset();
   }
 
   void addConnection()
   {
     boost::function<void (const ImagePtr&) > image_cb = boost::bind (&Runner::image_cb, this, _1);
-    boost::function<void (const Cloud::ConstPtr&) > cloud_cb = boost::bind (&Runner::cloud_cb, this, _1);
+    boost::function<void (const Cloud&) > cloud_cb = boost::bind (&Runner::cloud_cb, this, _1);
     grabber_->addConnection(image_cb);
     grabber_->addConnection(cloud_cb);
   }
@@ -37,15 +42,17 @@ public:
 
     while (!cloud_viewer_->wasStopped () && (image_viewer_ && !image_viewer_->wasStopped ()))
     {
+      /*
       ImagePtr image;
-      Cloud::ConstPtr cloud;
+      CloudPtr cloud;
 
       cloud = getCloud();
       image = getImage();
 
-      updateViewer(cloud, image);
-      viewerSpinOnce();
+      //compute_->setKeyframe(cloud, image);
 
+      updateViewer(cloud, image);
+      */
     }
 
     removeConnection();
@@ -56,15 +63,15 @@ public:
 
 protected:
 
-  Cloud::ConstPtr getCloud()
+  CloudPtr getCloud()
   {
-    Cloud::ConstPtr cloud;
+    CloudPtr cloud;
 
     // See if we can get a cloud
     if (cloud_mutex_.try_lock ())
     {
       cloud_.swap (cloud);
-      cloud_mutex_.unlock ();
+      cloud_mutex_.unlock();
     }
     return cloud;
   }
@@ -83,11 +90,11 @@ protected:
     return image;
   }
 
-  void cloud_cb(const Cloud::ConstPtr& cloud)
+  void cloud_cb(const Cloud& cloud)
   {
     //FPS_CALC ("cloud callback");
     boost::mutex::scoped_lock lock (cloud_mutex_);
-    cloud_ = cloud;
+    //cloud_ = cloud;
   }
 
   void image_cb(const ImagePtr& image)
@@ -110,22 +117,25 @@ protected:
   }
 
 protected:
-  Cloud::ConstPtr cloud_;
-  ImagePtr image_;
+  //boost::shared_ptr<Compute> compute_;
   boost::shared_ptr<MyGrabber> grabber_;
+
+  CloudPtr cloud_;
+  ImagePtr image_;
   boost::mutex cloud_mutex_;
   boost::mutex image_mutex_;
   unsigned char* rgb_data_;
   unsigned rgb_data_size_;
 };
 
+}
+
 int main (int argc, char** argv)
 {
-  boost::shared_ptr<Runner> r(new Runner());
+  boost::shared_ptr<mylib::Runner> r(new mylib::Runner());
   std::cout << "Initialised" << std::endl;
   r->run();
   std::cout << "Bye Bye" << std::endl;
   r.reset();
   return 0;
 }
-/* ]--- */

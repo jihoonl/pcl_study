@@ -5,6 +5,8 @@
 
 #include "viewer/typedef.hpp"
 
+namespace mylib {
+
 class MyGrabber
 {
 public:
@@ -59,5 +61,6 @@ private:
   Grabber::Ptr grabber_;
   ConnectionVector connections_;
 };
+}
 
 #endif
