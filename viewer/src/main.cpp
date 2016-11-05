@@ -4,6 +4,7 @@
 #include "viewer/grabber.hpp"
 #include "viewer/viewer.hpp"
 #include "viewer/compute.hpp"
+#include "viewer/keyframe.hpp"
 
 namespace mylib {
 
@@ -51,6 +52,16 @@ public:
       compute_->setKeyframe(cloud, image);
 
       updateViewer(cloud, image);
+    }
+
+    KeyframeVecPtr p = compute_->getKeyvector();
+
+    for(unsigned int i = 0; i < p->size(); i++)
+    {
+      std::cout << "i = " << i << std::endl;
+      Keyframe k = p->at(i);
+      updateViewer(k.c, k.i);
+      boost::this_thread::sleep(boost::posix_time::seconds(0.1));
     }
 
     removeConnection();

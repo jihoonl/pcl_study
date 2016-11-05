@@ -12,7 +12,7 @@ class CloudViewer {
     CloudViewer(const std::string& viewer_name);
     ~CloudViewer();
 
-    void update(Cloud::ConstPtr& cloud, const std::string& input);
+    void update(Cloud::Ptr& cloud, const std::string& input);
 
   private:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> cloud_viewer_;

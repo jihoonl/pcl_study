@@ -4,6 +4,7 @@
 
 #include "typedef.hpp"
 #include "keyframe.hpp"
+#include "cloud_viewer.hpp"
 
 namespace mylib {
 
@@ -17,6 +18,8 @@ public:
     compute_thread_ = boost::thread(&Compute::process, this);
     new_data_available_ = false;
     is_running_ = true;
+
+    keyframe_.reset(new KeyframeVec);
   }
 
   ~Compute() {
@@ -24,8 +27,8 @@ public:
     is_running_ = false;
     compute_thread_.join();
 
-    keyframe_.clear();
-    //frames_.clear();
+    keyframe_->clear();
+    keyframe_.reset();
   }
 
   void setKeyframe(Cloud::ConstPtr cloud, ImagePtr image)
@@ -49,15 +52,23 @@ public:
     while(is_running_) {
       if(new_data_available_) {
         Keyframe frame = getKeyframe();
-        keyframe_.push_back(frame);
+        keyframe_->push_back(frame);
         new_data_available_ = false;
       }
       boost::this_thread::sleep(boost::posix_time::seconds(1));
     }
+    std::cout << "Num : " << keyframe_->size() << std::endl;
+    /*
     for(unsigned int i = 0; i < keyframe_.size(); i++)
     {
-      std::cout << *(keyframe_[i].c) << std::endl;
+      //std::cout << *(keyframe_[i].c) << std::endl;
     }
+    */
+  }
+
+  KeyframeVecPtr getKeyvector()
+  {
+    return keyframe_;
   }
 
   private:
@@ -66,7 +77,7 @@ public:
     ImagePtr current_image_;
     bool new_data_available_;
     bool is_running_;
-    std::vector<Keyframe> keyframe_;
+    KeyframeVecPtr keyframe_;
     boost::thread compute_thread_;
 };
 

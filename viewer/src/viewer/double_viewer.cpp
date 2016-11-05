@@ -59,4 +59,40 @@ void Viewer::updateViewer(Cloud::ConstPtr& cloud, ImagePtr& image)
   image_viewer_->spinOnce ();
 }
 
+void Viewer::updateViewer(Cloud::Ptr& cloud, ImagePtr& image)
+{
+  if(cloud) {
+    if (!cloud_viewer_->updatePointCloud (cloud, input_cloud_name_.c_str()))
+    {
+      cloud_viewer_->addPointCloud (cloud, input_cloud_name_.c_str());
+      cloud_viewer_->addCoordinateSystem(0.1, input_cloud_name_.c_str());
+      cloud_viewer_->resetCameraViewpoint (input_cloud_name_.c_str());
+      cloud_viewer_->setCameraPosition (
+        0,0,-2,		// Position
+        0,0,1,		// Viewpoint
+        0,-1,0);	// Up
+    }
+
+    /*
+    if (!kf_viewer_->updatePointCloud (cloud, input_cloud_name_.c_str()))
+    {
+      kf_viewer_->addPointCloud (cloud, input_cloud_name_.c_str());
+      kf_viewer_->resetCameraViewpoint (input_cloud_name_.c_str());
+      kf_viewer_->setCameraPosition (
+        0,0,0,		// Position
+        0,0,1,		// Viewpoint
+        0,-1,0);	// Up
+    }
+    */
+
+  }
+
+  if(image) {
+    image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
+  }
+
+  //kf_viewer_->spinOnce();
+  cloud_viewer_->spinOnce();
+  image_viewer_->spinOnce ();
+}
 }

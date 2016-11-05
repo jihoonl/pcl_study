@@ -13,11 +13,15 @@ class Keyframe {
       *c = *cloud;
     }
 
-    ~Keyframe() { }
+    ~Keyframe() {
+    }
 
     Cloud::Ptr c;
     ImagePtr i;
 };
+
+typedef std::vector<Keyframe> KeyframeVec;
+typedef boost::shared_ptr<KeyframeVec> KeyframeVecPtr;
 
 }
 

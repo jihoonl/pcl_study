@@ -13,7 +13,7 @@ CloudViewer::~CloudViewer()
 {
 }
 
-void CloudViewer::update(Cloud::ConstPtr& cloud, const std::string& input="input")
+void CloudViewer::update(Cloud::Ptr& cloud, const std::string& input="input")
 {
   if(!cloud)
     return;

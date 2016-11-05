@@ -15,6 +15,7 @@ public:
   ~Viewer();
 
   void updateViewer(Cloud::ConstPtr& cloud, ImagePtr& image);
+  void updateViewer(Cloud::Ptr& cloud, ImagePtr& image);
 
 protected:
   boost::shared_ptr<pcl::visualization::PCLVisualizer> cloud_viewer_;
