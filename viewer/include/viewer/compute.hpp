@@ -3,6 +3,7 @@
 #define __VIEWER_COMPUTE_HPP__
 
 #include "typedef.hpp"
+#include "keyframe.hpp"
 
 namespace mylib {
 
@@ -10,9 +11,9 @@ class Compute {
 
 public:
   Compute() {
-    keyframe_.clear();
+    //keyframe_.clear();
 //    current_frame_.c.reset();
-    current_frame_.i.reset();
+//    current_frame_.i.reset();
     compute_thread_ = boost::thread(&Compute::process, this);
     new_data_available_ = false;
     is_running_ = true;
@@ -24,23 +25,22 @@ public:
     compute_thread_.join();
 
     keyframe_.clear();
+    //frames_.clear();
   }
 
-  void setKeyframe(Cloud::Ptr cloud, ImagePtr image)
+  void setKeyframe(Cloud::ConstPtr cloud, ImagePtr image)
   {
     boost::mutex::scoped_lock lock (data_mutex_);
-    //current_frame_.c = cloud;
-    //pcl::copyPointCloud(*cloud, *(current_frame_.c));//*(current_frame_.c) = *cloud;
-    //current_frame_.i = *image;
+    current_cloud_ = cloud;
+    current_image_ = image;
     new_data_available_ = true;
   }
 
   Keyframe getKeyframe()
   {
     boost::mutex::scoped_lock lock (data_mutex_);
-    Keyframe k;
+    Keyframe k(current_cloud_, current_image_);
 
-    k = current_frame_;
     return k;
   }
 
@@ -48,20 +48,24 @@ public:
   {
     while(is_running_) {
       if(new_data_available_) {
-        Keyframe k = getKeyframe();
-        keyframe_.push_back(k);
-        std::cout << "Keyframe size " << keyframe_.size() << std::endl;
+        Keyframe frame = getKeyframe();
+        keyframe_.push_back(frame);
         new_data_available_ = false;
       }
       boost::this_thread::sleep(boost::posix_time::seconds(1));
+    }
+    for(unsigned int i = 0; i < keyframe_.size(); i++)
+    {
+      std::cout << *(keyframe_[i].c) << std::endl;
     }
   }
 
   private:
     boost::mutex data_mutex_;
+    Cloud::ConstPtr current_cloud_;
+    ImagePtr current_image_;
     bool new_data_available_;
     bool is_running_;
-    Keyframe current_frame_;
     std::vector<Keyframe> keyframe_;
     boost::thread compute_thread_;
 };

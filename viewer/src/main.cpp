@@ -13,18 +13,18 @@ public:
   Runner() : Viewer()
   {
     grabber_.reset(new MyGrabber());
-  //  compute_.reset(new Compute());
+    compute_.reset(new Compute());
   }
 
   ~Runner() {
     grabber_.reset();
-//    compute_.reset();
+    compute_.reset();
   }
 
   void addConnection()
   {
     boost::function<void (const ImagePtr&) > image_cb = boost::bind (&Runner::image_cb, this, _1);
-    boost::function<void (const Cloud&) > cloud_cb = boost::bind (&Runner::cloud_cb, this, _1);
+    boost::function<void (const Cloud::ConstPtr&) > cloud_cb = boost::bind (&Runner::cloud_cb, this, _1);
     grabber_->addConnection(image_cb);
     grabber_->addConnection(cloud_cb);
   }
@@ -42,30 +42,27 @@ public:
 
     while (!cloud_viewer_->wasStopped () && (image_viewer_ && !image_viewer_->wasStopped ()))
     {
-      /*
       ImagePtr image;
-      CloudPtr cloud;
+      Cloud::ConstPtr cloud;
 
       cloud = getCloud();
       image = getImage();
 
-      //compute_->setKeyframe(cloud, image);
+      compute_->setKeyframe(cloud, image);
 
       updateViewer(cloud, image);
-      */
     }
 
     removeConnection();
     grabber_->stop ();
 
-    //cloud_connection.disconnect ();
   }
 
 protected:
 
-  CloudPtr getCloud()
+  Cloud::ConstPtr getCloud()
   {
-    CloudPtr cloud;
+    Cloud::ConstPtr cloud;
 
     // See if we can get a cloud
     if (cloud_mutex_.try_lock ())
@@ -90,11 +87,11 @@ protected:
     return image;
   }
 
-  void cloud_cb(const Cloud& cloud)
+  void cloud_cb(const Cloud::ConstPtr& cloud)
   {
     //FPS_CALC ("cloud callback");
     boost::mutex::scoped_lock lock (cloud_mutex_);
-    //cloud_ = cloud;
+    cloud_ = cloud;
   }
 
   void image_cb(const ImagePtr& image)
@@ -117,10 +114,10 @@ protected:
   }
 
 protected:
-  //boost::shared_ptr<Compute> compute_;
+  boost::shared_ptr<Compute> compute_;
   boost::shared_ptr<MyGrabber> grabber_;
 
-  CloudPtr cloud_;
+  Cloud::ConstPtr cloud_;
   ImagePtr image_;
   boost::mutex cloud_mutex_;
   boost::mutex image_mutex_;

@@ -29,7 +29,7 @@ public:
   }
   ~Viewer() {}
 
-  void updateViewer(Cloud::Ptr& cloud, ImagePtr& image)
+  void updateViewer(Cloud::ConstPtr& cloud, ImagePtr& image)
   {
     if(cloud) {
       if (!cloud_viewer_->updatePointCloud (cloud, input_cloud_name_.c_str()))
@@ -64,7 +64,6 @@ public:
     //kf_viewer_->spinOnce();
     cloud_viewer_->spinOnce();
     image_viewer_->spinOnce ();
-
   }
 
 protected:
