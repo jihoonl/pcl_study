@@ -12,9 +12,18 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
+add_library(viewer
+  src/viewer/double_viewer.cpp
+  src/viewer/image_viewer.cpp
+  src/viewer/cloud_viewer.cpp
+)
+target_link_libraries(viewer ${PCL_LIBRARIES})
+
 add_executable(openni2
   src/main.cpp
 )
+
 target_link_libraries(openni2
+  viewer
   ${PCL_LIBRARIES}
 )
