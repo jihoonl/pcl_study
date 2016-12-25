@@ -10,7 +10,7 @@ namespace mylib {
 Keyframe::Keyframe(Cloud::ConstPtr cloud, ImagePtr image) : c(new Cloud)
 {
   pcl::copyPointCloud(*cloud, *c);
-  //i = new pcl::PCLImage();
+  //i.reset(new Image(image));
   //i = image;
 }
 

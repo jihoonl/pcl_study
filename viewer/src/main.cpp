@@ -26,7 +26,7 @@ public:
   {
     boost::function<void (const ImagePtr&) > image_cb = boost::bind (&Runner::image_cb, this, _1);
     boost::function<void (const Cloud::ConstPtr&) > cloud_cb = boost::bind (&Runner::cloud_cb, this, _1);
-    grabber_->addConnection(image_cb);
+//    grabber_->addConnection(image_cb);
     grabber_->addConnection(cloud_cb);
   }
 
@@ -39,7 +39,6 @@ public:
   {
     addConnection();
 
-    /*
     grabber_->start();
 
     while (!cloud_viewer_->wasStopped () && (image_viewer_ && !image_viewer_->wasStopped ()))
@@ -50,13 +49,11 @@ public:
       cloud = getCloud();
       image = getImage();
 
-//      compute_->setKeyframe(cloud, image);
+      compute_->setKeyframe(cloud, image);
 
       updateViewer(cloud, image);
     }
-    */
 
-    /*
     KeyframeVecPtr p = compute_->getKeyvector();
 
     for(unsigned int i = 0; i < p->size(); i++)
@@ -64,12 +61,11 @@ public:
       std::cout << "i = " << i << std::endl;
       Keyframe k = p->at(i);
       updateViewer(k.c, k.i);
-      boost::this_thread::sleep(boost::posix_time::seconds(0.1));
+      boost::this_thread::sleep(boost::posix_time::seconds(1.0));
     }
-    */
 
     removeConnection();
-    //grabber_->stop ();
+    grabber_->stop ();
 
   }
 
@@ -126,7 +122,7 @@ protected:
         rgb_data_ = new unsigned char [rgb_data_size_ * 3];
       }
       image_->fillRGB (image_->getWidth (), image_->getHeight (), rgb_data_);
-      std::cout << "Here" << std::endl;
+  //    std::cout << "Here" << std::endl;
     }
     */
   }

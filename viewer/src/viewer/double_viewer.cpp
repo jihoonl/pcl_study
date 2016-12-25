@@ -51,8 +51,7 @@ void Viewer::updateViewer(Cloud::ConstPtr& cloud, ImagePtr& image)
   }
 
   if(image) {
-//    image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
-    image_viewer_->addRGBImage(*cloud);
+    image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
   }
 
   //kf_viewer_->spinOnce();
@@ -89,8 +88,8 @@ void Viewer::updateViewer(Cloud::Ptr& cloud, ImagePtr& image)
   }
 
   if(image) {
-    //image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
-    image_viewer_->addRGBImage(*cloud);
+    image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
+    //image_viewer_->addRGBImage(*cloud);
   }
 
   //kf_viewer_->spinOnce();

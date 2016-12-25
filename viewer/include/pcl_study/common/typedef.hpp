@@ -21,7 +21,7 @@ namespace mylib {
   typedef std::vector<Connection> ConnectionVector;
   typedef std::vector<ConnectionPtr> ConnectionPtrVector;
   typedef typename pcl::PointCloud<pcl::PointXYZRGBA> Cloud;
-  typedef pcl::PCLImage::Ptr ImagePtr;
+  typedef boost::shared_ptr<pcl::io::openni2::Image> ImagePtr;
   typedef boost::chrono::high_resolution_clock HRClock;
 
   #define SHOW_FPS 1
