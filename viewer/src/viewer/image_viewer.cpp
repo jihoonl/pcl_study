@@ -1,5 +1,5 @@
 
-#include "viewer/image_viewer.hpp"
+#include "pcl_study/viewer/image_viewer.hpp"
 
 namespace mylib {
 
@@ -19,7 +19,7 @@ void ImageViewer::update(ImagePtr& image)
   if(!image)
     return;
 
-  image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
+//  image_viewer_->addRGBImage ( (const unsigned char*)image->getData (), image->getWidth (), image->getHeight ());
   image_viewer_->spinOnce();
 }
 

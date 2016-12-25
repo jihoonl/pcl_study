@@ -1,9 +1,10 @@
 
-#ifndef __CLOUD_VIEWER_HPP__
-#define __CLOUD_VIEWER_HPP__
+#ifndef __VIEWER_CLOUD_VIEWER_HPP__
+#define __VIEWER_CLOUD_VIEWER_HPP__
 
-#include "typedef.hpp"
 #include <pcl/visualization/pcl_visualizer.h>
+
+#include "pcl_study/common/typedef.hpp"
 
 namespace mylib {
 

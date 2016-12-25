@@ -1,5 +1,5 @@
 
-#include "viewer/cloud_viewer.hpp"
+#include "pcl_study/viewer/cloud_viewer.hpp"
 
 namespace mylib {
 

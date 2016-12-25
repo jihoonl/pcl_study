@@ -1,6 +1,6 @@
 
-#ifndef __VIEWER_TYPEDEF_HPP__
-#define __VIEWER_TYPEDEF_HPP__
+#ifndef __COMMON_TYPEDEF_HPP__
+#define __COMMON_TYPEDEF_HPP__
 
 #include <iostream>
 #include <vector>
@@ -10,6 +10,8 @@
 #include "pcl/io/openni2/openni.h"
 #include <pcl/io/openni2_grabber.h>
 #include <pcl/common/time.h> //fps calculations
+#include <pcl/common/common.h>
+#include <pcl/PCLImage.h>
 
 namespace mylib {
 
@@ -19,7 +21,7 @@ namespace mylib {
   typedef std::vector<Connection> ConnectionVector;
   typedef std::vector<ConnectionPtr> ConnectionPtrVector;
   typedef typename pcl::PointCloud<pcl::PointXYZRGBA> Cloud;
-  typedef boost::shared_ptr<pcl::io::openni2::Image> ImagePtr;
+  typedef pcl::PCLImage::Ptr ImagePtr;
   typedef boost::chrono::high_resolution_clock HRClock;
 
   #define SHOW_FPS 1

@@ -1,10 +1,11 @@
 
-#ifndef __VIEWER_HPP__
-#define __VIEWER_HPP__
+#ifndef __VIEWER_VIEWER_HPP__
+#define __VIEWER_VIEWER_HPP__
 
-#include "typedef.hpp"
 #include <pcl/visualization/image_viewer.h>
 #include <pcl/visualization/pcl_visualizer.h>
+
+#include "pcl_study/common/typedef.hpp"
 
 namespace mylib {
 

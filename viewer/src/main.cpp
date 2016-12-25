@@ -1,10 +1,10 @@
 
 //#include "viewer/openni2_viewer.hpp"
-#include "viewer/typedef.hpp"
-#include "viewer/grabber.hpp"
-#include "viewer/viewer.hpp"
-#include "viewer/compute.hpp"
-#include "viewer/keyframe.hpp"
+#include "pcl_study/common/typedef.hpp"
+#include "pcl_study/common/compute.hpp"
+#include "pcl_study/grabber//grabber.hpp"
+#include "pcl_study/viewer/viewer.hpp"
+#include "pcl_study/common/keyframe.hpp"
 
 namespace mylib {
 
@@ -39,6 +39,7 @@ public:
   {
     addConnection();
 
+    /*
     grabber_->start();
 
     while (!cloud_viewer_->wasStopped () && (image_viewer_ && !image_viewer_->wasStopped ()))
@@ -49,11 +50,13 @@ public:
       cloud = getCloud();
       image = getImage();
 
-      compute_->setKeyframe(cloud, image);
+//      compute_->setKeyframe(cloud, image);
 
       updateViewer(cloud, image);
     }
+    */
 
+    /*
     KeyframeVecPtr p = compute_->getKeyvector();
 
     for(unsigned int i = 0; i < p->size(); i++)
@@ -63,9 +66,10 @@ public:
       updateViewer(k.c, k.i);
       boost::this_thread::sleep(boost::posix_time::seconds(0.1));
     }
+    */
 
     removeConnection();
-    grabber_->stop ();
+    //grabber_->stop ();
 
   }
 
@@ -111,6 +115,7 @@ protected:
     boost::mutex::scoped_lock lock (image_mutex_);
     image_ = image;
 
+    /*
     if (image->getEncoding () != pcl::io::openni2::Image::RGB)
     {
       if (rgb_data_size_ < image->getWidth () * image->getHeight ())
@@ -121,7 +126,9 @@ protected:
         rgb_data_ = new unsigned char [rgb_data_size_ * 3];
       }
       image_->fillRGB (image_->getWidth (), image_->getHeight (), rgb_data_);
+      std::cout << "Here" << std::endl;
     }
+    */
   }
 
 protected:

@@ -5,7 +5,7 @@ find_package(PCL 1.8 REQUIRED)
 
 add_definitions(${PCL_DEFINITIONS})
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
 include_directories(
   include
